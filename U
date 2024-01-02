@@ -1,0 +1,592 @@
+_G.Setting = {
+    ["Hunt"] = {
+        ["Team"] = "Pirates"
+    },
+    ["Webhook"] = {
+        ["Enable"] = false,
+        ["Url"] = ""
+    },
+    ["Skip"] = {
+        ["V4"] = true,
+        ["Fruit"] = {
+            "Leopard-Leopard",
+            "Venom-Venom",
+            "Dough-Dough",
+            "Portal-Portal"
+        }
+    },
+    ["Chat"] = {
+        ["Enable"] = false,
+        ["Content"] = {"Chat Here!"}
+    },
+    ["Misc"] = {
+        ["Hide If Low Health"] = true,
+        ["Hiding Health"] = {4000,8000},
+        ["V4"] = true,
+        ["LockCamera"] = false,
+        ["FPSBoost"] = false,
+        ["WhiteScreen"] = false,
+        ["BypassTP"] = true, 
+        ["HopRegion"] = "Singapore"
+    },
+    ["Weapons"] = {
+        ["Melee"] = {
+            ["Enable"] = true,
+            ["Delay"] = 3,
+            ["Skills"] = {
+                ["Z"] = {["Enable"] = true, ["HoldTime"] = 0},
+                ["X"] = {["Enable"] = true, ["HoldTime"] = 0},
+                ["C"] = {["Enable"] = true, ["HoldTime"] = 0},
+                ["V"] = {["Enable"] = false, ["HoldTime"] = 0}
+            }
+        },
+        ["Blox Fruit"] = {
+            ["Enable"] = false,
+            ["Delay"] = 6,
+            ["Skills"] = {
+                ["Z"] = {["Enable"] = true, ["HoldTime"] = 0},
+                ["X"] = {["Enable"] = true, ["HoldTime"] = 0},
+                ["C"] = {["Enable"] = true, ["HoldTime"] = 0},
+                ["V"] = {["Enable"] = true, ["HoldTime"] = 0.25},
+                ["F"] = {["Enable"] = false, ["HoldTime"] = 0}
+            }
+        },
+        ["Sword"] = {
+            ["Enable"] = true,
+            ["Delay"] = 2,
+            ["Skills"] = {
+                ["Z"] = {["Enable"] = true, ["HoldTime"] = 1},
+                ["X"] = {["Enable"] = true, ["HoldTime"] = 0}
+            } 
+        },
+        ["Gun"] = {
+            ["Enable"] = true,          
+            ["Delay"] = 1,
+            ["Skills"] = {
+                ["Z"] = {["Enable"] = true, ["HoldTime"] = 0},
+                ["X"] = {["Enable"] = false, ["HoldTime"] = 0}
+            } 
+        }
+    }
+}
+
+local ScreenGui = Instance.new("ScreenGui")
+local ImageButton = Instance.new("ImageButton")
+local UICorner = Instance.new("UICorner")
+ScreenGui.Name = "AUTObouty"
+-
+ImageButton.Position == UDim2.new({0.21, 0},{0.092, 0})
+ImageButton.Size = UDim2.new({0, 1038},{0, 613})
+ImageButton.Draggable = true
+ImageButton.Image = "https://www.roblox.com/asset/?id=15833214902"
+UICorner.Parent = ImageButton
+
+repeat task.wait() until game:IsLoaded()
+repeat task.wait() until game.Players
+repeat task.wait() until game.Players.LocalPlayer
+repeat task.wait() until game.Players.LocalPlayer:FindFirstChild("PlayerGui")
+repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("Main"); 
+if game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam") then
+    repeat task.wait()
+        if game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Main").ChooseTeam.Visible == true then
+            if _G.Setting.Hunt.Team == "Marines" then
+                for i, v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container["Marines"].Frame.TextButton.Activated)) do
+                    for a, b in pairs(getconnections(game:GetService("UserInputService").TouchTapInWorld)) do
+                       b:Fire() 
+                    end
+                    v.Function()
+                end 
+            else
+                for i, v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container["Pirates"].Frame.TextButton.Activated)) do
+                    for a, b in pairs(getconnections(game:GetService("UserInputService").TouchTapInWorld)) do
+                       b:Fire() 
+                    end
+                    v.Function()
+                end 
+            end
+        end
+    until game.Players.LocalPlayer.Team ~= nil and game:IsLoaded()
+end
+--- Local
+local plrs = game.Players 
+local lp = plrs.LocalPlayer 
+local char = lp.Character 
+local humanoid = char:WaitForChild("Humanoid") 
+local humanoidrootpart = char:WaitForChild("HumanoidRootPart") 
+local targetnow = nil
+local cs = newcclosure
+local HttpService = game:GetService("HttpService")
+local niga = {}
+local workspace = game.Workspace
+--- Tween / Bypass
+function getPortal(check2)
+    local check3 = check2.Position
+    local w = game.PlaceId
+    if w == 2753915549 then
+        gQ = {
+            Vector3.new(-7894.6201171875, 5545.49169921875, -380.246346191406),
+            Vector3.new(-4607.82275390625, 872.5422973632812, -1667.556884765625),
+            Vector3.new(61163.8515625, 11.759522438049316, 1819.7841796875),
+            Vector3.new(3876.280517578125, 35.10614013671875, -1939.3201904296875)
+        }
+    elseif w == 4442272183 then
+        gQ = {
+            Vector3.new(-288.46246337890625, 306.130615234375, 597.9988403320312),
+            Vector3.new(2284.912109375, 15.152046203613281, 905.48291015625),
+            Vector3.new(923.21252441406, 126.9760055542, 32852.83203125),
+            Vector3.new(-6508.5581054688, 89.034996032715, -132.83953857422)
+        }
+    elseif w == 7449423635 then
+        gQ = {
+            Vector3.new(-5058.77490234375, 314.5155029296875, -3155.88330078125),
+            Vector3.new(5756.83740234375, 610.4240112304688, -253.9253692626953),
+            Vector3.new(-12463.8740234375, 374.9144592285156, -7523.77392578125),
+            Vector3.new(28282.5703125, 14896.8505859375, 105.1042709350586),
+            Vector3.new(-11993.580078125, 334.7812805175781, -8844.1826171875),
+            Vector3.new(5314.58203125, 25.419387817382812, -125.94227600097656)
+        }
+    end
+    local aM, aN = Vector3.new(0,0,0), math.huge
+
+    for _, aL in pairs(gQ) do
+        if (aL-check3).Magnitude < aN and aM ~= aL then
+            aM, aN = aL,  (aL-check3).Magnitude
+        end 
+    end
+    return aM
+end 
+function bypass(is)
+    if tween then
+        tween:Cancel()
+    end
+    repeat task.wait()
+        lp.Character.HumanoidRootPart.CFrame = is  
+    until lp.Character.PrimaryPart.CFrame == is  
+    game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(15)
+    lp.Character:SetPrimaryPartCFrame(is)
+    task.wait(0.1)
+    lp.Character.HumanoidRootPart.CFrame = is  
+    lp.Character:SetPrimaryPartCFrame(is)
+    lp.Character.Head:Destroy()
+    task.wait(0.5)
+    repeat task.wait()
+        lp.Character.PrimaryPart.CFrame = is  
+    until lp.Character:FindFirstChild("Humanoid").Health > 0
+    task.wait(0.5)
+end 
+function getSpawn(wtf)
+    local a, b = nil, math.huge
+    for i,v in pairs(game.Workspace._WorldOrigin.PlayerSpawns:FindFirstChild(tostring(lp.Team)):GetChildren()) do
+        if tostring(v) ~= "Leviathan" and (v:GetModelCFrame().Position-wtf.Position).Magnitude < b then
+            a = v:GetModelCFrame()
+            b = (v:GetModelCFrame().Position-wtf.Position).Magnitude
+        end
+    end
+    return a
+end
+function request(check1)
+    game.ReplicatedStorage.Remotes.CommF_:InvokeServer(unpack({"requestEntrance", check1}))
+end
+function calcpos(I, II) 
+    if not II then 
+        II = game.Players.LocalPlayer.Character.PrimaryPart.CFrame 
+    end 
+    return (Vector3.new(I.X, 0, I.Z)-Vector3.new(II.X, 0, II.Z)).Magnitude 
+end 
+function checkcombat()
+    return game:GetService("Players").LocalPlayer.PlayerGui.Main.InCombat.Visible and game:GetService("Players").LocalPlayer.PlayerGui.Main.InCombat.Text and (string.find(string.lower(game:GetService("Players").LocalPlayer.PlayerGui.Main.InCombat.Text),"risk"))
+end 
+function to(Pos)
+    if tween then tween:Cancel() end
+    if not Pos then return end 
+    game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart", 9)
+    game.Players.LocalPlayer.Character:WaitForChild("Head", 9)
+    for _, v in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
+        if v:IsA("BasePart") then
+            v.CanCollide = false    
+        end
+    end
+    if not game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("Rimus") then
+        local ngu = Instance.new("BodyVelocity", game.Players.LocalPlayer.Character.HumanoidRootPart)
+        ngu.Name = "Rimus"
+        ngu.MaxForce = Vector3.new(0,math.huge,0)
+        ngu.Velocity = Vector3.new(0,0,0)
+    end 
+    Portal = getPortal(Pos) 
+    Spawn = getSpawn(Pos) 
+    for mm = 0,3,1 do 
+        if getSpawn(Pos) ~= Spawn then 
+            return 
+        end 
+    end 
+    MyCFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+    poscalc = calcpos(MyCFrame, Pos)
+    if Spawn then 
+        Pos0 = calcpos(Spawn, Pos)
+        if _G.Setting.Misc.BypassTP and not checkcombat() and Pos0 < poscalc and poscalc > 1200 and calcpos(MyCFrame, Spawn) > 500 and Pos0 < (calcpos(Portal, Pos)+800) then
+            return bypass(Spawn)
+        end
+    end
+    if poscalc > calcpos(Portal, Pos) and poscalc > 300 then
+        return request(Portal) 
+    end
+    if poscalc < 220 then
+        MyCFrame = Pos 
+        return 
+    end 
+    if poscalc < 250 then
+        Speed = 400
+    elseif poscalc < 1000 then
+        Speed = 375
+    elseif poscalc >= 1000 then
+        Speed = 350
+    end
+    if Speed ~= nil then
+        tween = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(poscalc / Speed, Enum.EasingStyle.Linear),{CFrame = Pos})
+        tween:Play() 
+    end
+end
+--- Hook aim
+local oldNamecall
+oldNamecall = hookmetamethod(game, "__namecall", newcclosure(function(...)
+    local Method = getnamecallmethod()
+    local Arguments = {...}
+    local self = Arguments[1]
+    if tostring(getcallingscript()) == "Mouse" and self == workspace and not checkcaller() then
+        if Method == "FindPartOnRayWithIgnoreList" then
+            abuse = targetnow
+            if abuse ~= nil then
+                Origin = Arguments[2].Origin
+                Direction = getDirection(Origin, (abuse.Character.HumanoidRootPart.CFrame*CFrame.new(0,-4,1)).Position)
+                Arguments[2] = Ray.new(Origin, Direction) 
+            end
+        end 
+    end 
+    return oldNamecall(unpack(Arguments)) 
+end))
+function click() 
+    game:GetService("VirtualUser"):CaptureController()
+    game:GetService("VirtualUser"):ClickButton1(Vector2.new(1000,1000)) 
+end 
+function Buso()
+    if (not (game.Players.LocalPlayer.Character:FindFirstChild("HasBuso"))) then
+        local rel = game.ReplicatedStorage
+        rel.Remotes.CommF_:InvokeServer("Buso")
+    end
+end
+function n4(g1)
+    if not og1 then return Vector3.new(0,0,0) end 
+    return (g1-og1)
+  end 
+--- Target
+function am2(q0) 
+    if not q0 then return end
+    return q0.Character:WaitForChild("HumanoidRootPart", 9) 
+end 
+  
+function CheckIsPositionAreRaiding(q0) 
+    for a=1,5,1 do 
+        local a0 = game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island"..a) 
+        if a0 and am2(q0, a0:GetModelCFrame()) < 3000 then 
+            return true 
+        end 
+    end 
+end 
+function hasValue(array, targetString)
+    for _, value in ipairs(array) do
+        if tostring(value) == (targetString ) then
+            return true
+        end
+    end
+    return false
+end
+  
+function a991(p) 
+    for a, b in pairs(workspace._WorldOrigin.SafeZones:GetChildren()) do 
+        if calcpos(b.CFrame, p) < 120 then 
+            return false 
+        end
+    end 
+    local c = {}
+    for a, b in pairs(plrs:GetPlayers()) do 
+        if b and b.Character then 
+            if b:DistanceFromCharacter(p) < 300 then 
+                table.insert(c, b)
+            end 
+        end 
+    end 
+    local ab = 0
+    for i, v in pairs(c) do 
+        if v and v.Character and v.Backpack:FindFirstChild("Awakening") and v.Data.Level.Value > 2000 and v.Data.DevilFruit.Value ~= "Bomb-Bomb" then 
+            ab = ab + 1
+        end 
+    end
+    return (ab < 3) 
+end
+function checkNotify(msg)
+    for r, k in pairs(game.Players.LocalPlayer.PlayerGui.Notifications:GetChildren()) do
+        if k and k.Text and string.find(string.lower(k.Text), msg) then
+            k:Destroy()
+            return true
+        end
+    end
+end
+function HopServer(bO)
+    pcall(function()
+        if not bO then
+            bO = 10
+        end
+        ticklon = tick()
+        repeat
+            task.wait()
+        until tick() - ticklon >= 1
+        local function Hop()
+            for r = 1, math.huge do
+                if ChooseRegion == nil or ChooseRegion == "" then
+                    ChooseRegion = "Singapore"
+                else
+                    game:GetService("Players").LocalPlayer.PlayerGui.ServerBrowser.Frame.Filters.SearchRegion.TextBox.Text =
+                        ChooseRegion
+                end
+                local bP = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(r)
+                for k, v in pairs(bP) do
+                    if k ~= game.JobId and v["Count"] < bO then
+                    game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport", k)
+                    end
+                end
+            end
+            return false
+        end
+        if not getgenv().Loaded then
+            local function bQ(v)
+                if v.Name == "ErrorPrompt" then
+                    if v.Visible then
+                        if v.TitleFrame.ErrorTitle.Text == "Teleport Failed" then
+                            HopServer()
+                            v.Visible = false
+                        end
+                    end
+                    v:GetPropertyChangedSignal("Visible"):Connect(
+                        function()
+                            if v.Visible then
+                                if v.TitleFrame.ErrorTitle.Text == "Teleport Failed" then
+                                    HopServer()
+                                    v.Visible = false
+                                end
+                            end
+                        end
+                    )
+                end
+            end
+            for k, v in pairs(game.CoreGui.RobloxPromptGui.promptOverlay:GetChildren()) do
+                bQ(v)
+            end
+            game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(bQ)
+            getgenv().Loaded = true
+        end
+        while not Hop() do
+            task.wait()
+        end
+    end)
+end
+function find_target() 
+    nearestdistance, targetnow = math.huge, nil
+    for a, b in pairs(game.Players:GetPlayers()) do 
+        if b and b.Name ~= lp.Name and b.Character and not niga[b.Name] and b.Character:FindFirstChild("Head") and (tonumber(game.Players.LocalPlayer.Data.Level.Value) < tonumber(b.Data.Level.Value)) and am2(b).CFrame.Y < 3500 and lp:DistanceFromCharacter(b.Character.Head.Position) < nearestdistance and (not _G.Setting.Skip.V4 or not b.Backpack:FindFirstChild('Awakening')) and not hasValue(_G.Setting.Skip.Fruit, tostring(b.Data.DevilFruit.Value)) and a991(b.Character.Head.Position) and b.leaderstats["Bounty/Honor"].Value < 15000000 and calcpos(getSpawn(b.Character.HumanoidRootPart.CFrame), b.Character.HumanoidRootPart.CFrame) < 8000 then
+            nearestdistance = lp:DistanceFromCharacter(b.Character.Head.Position) 
+            targetnow = b 
+        end 
+    end
+    if not targetnow then return HopServer() end 
+    table.insert(niga,targetnow.Name)
+    if _G.Setting.Chat.Enable then 
+        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):FindFirstChild("SayMessageRequest"):FireServer(_G.Setting.Chat.Content[math.random(1, #_G.Setting.Chat.Content or 2)] or "", "All")
+    end 
+end 
+function safe_cp(p) 
+    p.Character:WaitForChild("HumanoidRootPart")
+    p.Character:WaitForChild("Head")
+    return p 
+end 
+function CheckIsPositionAreRaiding(q0) 
+    for a=1,5,1 do 
+        local a0 = game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island"..a) 
+        if a0 and am2(q0, a0:GetModelCFrame()) < 3000 then 
+            return true 
+        end 
+    end 
+end 
+function checktarget() 
+    safe_cp(lp)
+    if not targetnow then 
+        return find_target() 
+    end 
+    if not targetnow.Character then 
+        return find_target() 
+    end   
+    if targetnow.Character.Humanoid.Health <= 0 then
+        return find_target() 
+    end
+    if checkNotify("player") or checkNotify("người chơi") then
+        return find_target() 
+    end 
+    if lp.PlayerGui.Main.SafeZone.Visible and targetnow:DistanceFromCharacter(lp.Character:WaitForChild("Head", 9).Position) < 10 then
+        return find_target()
+    end
+    if targetnow:DistanceFromCharacter(lp.Character:WaitForChild("Head").Position) < 100 then 
+        if os.time()-fromtime > 250 then 
+            find_target()
+        end
+    else 
+        fromtime = os.time() 
+    end
+end
+function aaa0()
+    for a0, a1 in pairs(_G.Setting.Weapons) do 
+        if a1.Enable then
+            coroutine.yield({a0, a1.Skills, a1.Delay}) 
+        end 
+    end 
+end 
+
+function aaa2() 
+    for a, b in pairs(a002[2]) do 
+        if b.Enable then 
+            coroutine.yield({a, b}) 
+        end 
+    end
+    return false
+end 
+
+wp = coroutine.create(aaa0)
+
+function aaa1() 
+    if not wp or coroutine.status(wp) == "dead" then 
+        wp = coroutine.create(aaa0)
+    end 
+    -- warn(a002, a004, a003)
+    if not a002 or (os.time() - (a004 or 0)) > (a003 or 0) then 
+        a004 = os.time() 
+        a001, a002 = coroutine.resume(wp)
+        a003 = a002 and a002[3] 
+        a004 = os.time()
+    --  warn("____ ", a004, a002, a002[3])
+    end
+
+    if not a or coroutine.status(a) == "dead" then
+    a = coroutine.create(aaa2) 
+    end
+
+    local success, ret = coroutine.resume(a)
+    if not success or not ret or not a002 then 
+        return false 
+    end
+
+    return {a002[1], ret[1], ret[2]} --1: NameW 2: NameSkill 3: data
+end 
+
+function shitpredict(plr) 
+    if not plr then return Vector3.new(0,0,0) end
+        ai1 = n4(plr.Character.Head.Position)
+        og1 = plr.Character.Head.Position 
+    return ai1
+end
+
+function down(used, hold) -- Send key to client
+    use = true
+    game:service("VirtualInputManager"):SendKeyEvent(true, used, false, game)
+    task.wait(hold or 0)
+    game:service("VirtualInputManager"):SendKeyEvent(false, used, false, game)
+    use = false
+end
+
+function equip(tooltip)
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    for _, item in pairs(player.Backpack:GetChildren()) do 
+        if _G.Setting.Misc.V4 and tostring(item) == "Awakening" then 
+            item.Parent = character
+        end 
+        if tostring(item.ToolTip) == "" then 
+            item.Parent = character
+        end 
+        if item:IsA("Tool") and item.ToolTip == tooltip then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid and not humanoid:IsDescendantOf(item) then
+                if not game.Players.LocalPlayer.Character:FindFirstChild(item.Name) then
+                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(item)
+                    return item
+                end
+            end
+        end 
+    end
+end
+function AB(M)
+    for _, Q in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+        if Q.ToolTip == M then 
+            return Q
+        end 
+    end 
+    for _, Q in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
+        if Q:IsA("Tool") and Q.ToolTip == M then 
+            return Q
+        end 
+    end 
+end
+  
+function UU(Q, L) 
+    if not Q or not L then return end 
+    O = AB(Q) 
+    V = game.Players.LocalPlayer.PlayerGui.Main.Skills
+    if O and V:FindFirstChild(O.Name) then
+        if V[O.Name]:FindFirstChild(L) then
+            return V[O.Name][L].Cooldown.AbsoluteSize.X 
+        else 
+            return true
+        end 
+    else 
+        return true 
+    end 
+    return false 
+end
+while task.wait(0.05) do 
+    checktarget()
+    notpassed = false
+    for i, v in pairs(game.Workspace.NPCs:GetChildren()) do  
+        if v:FindFirstChild("HumanoidRootPart") and calcpos(v.HumanoidRootPart.Position) < 20 then 
+            notpassed = true
+        end
+    end
+    lp.Character:WaitForChild("Stun", 9e9).Value = 0
+    if not notpassed then click() end
+    health = tonumber(lp.Character.Humanoid.Health)
+    Buso()
+    if targetnow then
+        if targetnow.Character then
+            safe_cp(targetnow)
+            to((am2(targetnow).CFrame*CFrame.new(0,2,-6))+shitpredict(targetnow))
+            am2(targetnow).Size = Vector3.new(100,100,100)
+            if _G.Setting.Misc["Hide If Low Health"] and health > 0 and (health < _G.Setting.Misc["Hiding Health"][1] or (hide and health < _G.Setting.Misc["Hiding Health"][2])) then 
+                hide = true 
+                to(am2(targetnow).CFrame+Vector3.new(0,9999,0))
+            else
+                hide = false
+                if lp:DistanceFromCharacter(am2(targetnow).Position) < 50 then
+                    local a0 = aaa1() 
+                    if a0 and UU(a0[1], a0[2]) then
+                        equip(a0[1]) 
+                        down(a0[2], a0[3].HoldTime) 
+                        if targetnow.Character.Busy.Value then
+                            to((am2(targetnow).CFrame*CFrame.new(0,12,-14))+shitpredict(targetnow))
+                        else 
+                            to((am2(targetnow).CFrame*CFrame.new(0,0,-4))+shitpredict(targetnow)) 
+                        end
+                        if a0[1] == "Blox Fruit" or a0[1] == "Gun" then 
+                            equip("Melee")
+                        end
+                    end
+                end 
+            end 
+        end
+    end 
+end
